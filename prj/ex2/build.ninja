@@ -1,10 +1,22 @@
+
+########################
+# Variables
+########################
+
+exe = hello
+
+
+
 ########################
 # Rules
 ########################
 
-# Rule to transform a .c file into a .o file
+# Rule to transform a .c file into:
+#   * .o file
+#   * .lst file
 rule c_to_o_r
-  command = gcc -c $in -o out/hello.o
+  command = gcc -E $in -o out/${exe}.lst; $
+            gcc -c $in -o out/${exe}.o
   description = Compiles input src into an object file
 
 # Rule to transform a .o file into a executable file
@@ -18,11 +30,12 @@ rule o_to_e_r
 
 # compile .c to .o
 build $
-out/hello.o $
-: c_to_o_r src/hello.c
+out/${exe}.lst $
+out/${exe}.o $
+: c_to_o_r src/${exe}.c
 
 
 # link .o to executable
 build $
-out/hello $
-: o_to_e_r out/hello.o 
+out/${exe} $
+: o_to_e_r out/${exe}.o 
