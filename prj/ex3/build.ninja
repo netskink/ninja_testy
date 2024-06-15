@@ -1,0 +1,69 @@
+########################
+# Variables
+########################
+
+exe = hello
+test = testy
+
+########################
+# Rules
+########################
+
+# Rule to transform a .c file into a .o file
+rule c_to_o_r
+  command = gcc -c $in -o $out
+  description = Compiles input src into an object file
+
+# Rule to transform a .o file into a executable file
+rule o_to_e_r
+  command = gcc $in -o $out
+  description = Compiles input src into an object file
+
+########################
+# Build Statements
+########################
+
+# compile .c to .o
+build $
+out/${exe}.o $
+: c_to_o_r src/${exe}.c
+
+# link .o to executable
+build $
+out/${exe} $
+: o_to_e_r out/${exe}.o 
+
+# compile the test code
+build $
+out/${test}.o $
+: c_to_o_r test/${test}.c
+
+# link the test code
+build $
+out/${test} $
+: o_to_e_r out/${test}.o 
+
+########################
+# Tests
+########################
+
+rule test_good_r
+  command = ./out/${test} yo ./out/${exe}
+  description = runs a good test
+
+rule test_bad_r
+  command = ./out/${test} ho ./out/${exe}
+  description = runs a bad test
+
+build $
+test_good $
+: test_good_r $
+| out/${test} out/${exe}
+
+build $
+test_bad $
+: test_bad_r $
+| out/${test} out/${exe}
+
+# By default, only build test_good
+default test_good
