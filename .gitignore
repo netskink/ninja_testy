@@ -1,3 +1,14 @@
+
+# JFD Mods to C++ provided .gitignore
+
+out/
+.DS_Store
+.ninja_log
+
+
+
+
+
 # Prerequisites
 *.d
 

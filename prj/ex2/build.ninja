@@ -1,0 +1,28 @@
+########################
+# Rules
+########################
+
+# Rule to transform a .c file into a .o file
+rule c_to_o_r
+  command = gcc -c $in -o out/hello.o
+  description = Compiles input src into an object file
+
+# Rule to transform a .o file into a executable file
+rule o_to_e_r
+  command = gcc $in -o $out
+  description = Compiles input src into an object file
+
+########################
+# Build Statements
+########################
+
+# compile .c to .o
+build $
+out/hello.o $
+: c_to_o_r src/hello.c
+
+
+# link .o to executable
+build $
+out/hello $
+: o_to_e_r out/hello.o 
