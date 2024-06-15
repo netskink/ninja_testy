@@ -103,3 +103,10 @@ Example 2 is [here](https://github.com/netskink/ninja_testy/blob/main/prj/ex2/bu
 
 
 ![ex2](./img/ex2.png)
+
+Note the following:
+
+* the compile step has two outputs, the listing and the object file.
+* the rule to perform the compile issues two commands and the `$` to form line breaks
+* the build statements are split using `$`
+* the variable `exe` is used so that all rules and build statements use substition.
